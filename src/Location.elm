@@ -1,4 +1,4 @@
-module Location (Location, location, currentLocation, pushState, mapEffect, empty) where
+module Location (Location, location, currentLocation, pushState, empty) where
 
 {-| This library combines some useful functionality from the
 `window.location` and `window.history` APIs.
@@ -12,15 +12,11 @@ module Location (Location, location, currentLocation, pushState, mapEffect, empt
 # Tasks
 @docs currentLocation
 @docs pushState
-
-# Utilities
-@docs mapEffect
 -}
 
 import Native.Location
 import Signal
 import Task exposing (Task)
-import Effects exposing (Effects)
 import Maybe
 
 
@@ -64,13 +60,3 @@ history API.
 pushState : String -> Task x Location
 pushState url =
     Native.Location.pushState url
-
-
-{-| `mapEffect` maps a Location task to an Effect defined by the user.
--}
-mapEffect : Task x Location -> (Maybe Location -> y) -> Effects y
-mapEffect task mapper =
-    task
-        |> Task.toMaybe
-        |> Task.map mapper
-        |> Effects.task

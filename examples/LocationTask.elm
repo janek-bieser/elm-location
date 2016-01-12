@@ -36,7 +36,7 @@ app =
 
 init : ( Model, Effects Action )
 init =
-    ( Location.empty, Location.mapEffect Location.currentLocation LocationChange )
+    ( Location.empty, mapEffect Location.currentLocation LocationChange )
 
 
 view : Signal.Address Action -> Model -> Html
@@ -64,7 +64,15 @@ update action model =
                     ( model, Effects.none )
 
         GoTo url ->
-            ( model, Location.mapEffect (Location.pushState url) LocationChange )
+            ( model, mapEffect (Location.pushState url) LocationChange )
+
+
+mapEffect : Task x Location -> (Maybe Location -> y) -> Effects y
+mapEffect task mapper =
+    task
+        |> Task.toMaybe
+        |> Task.map mapper
+        |> Effects.task
 
 
 port tasks : Signal (Task.Task Never ())
