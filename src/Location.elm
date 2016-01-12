@@ -4,8 +4,7 @@ module Location (Location, location, currentLocation, pushState, mapEffect, empt
 `window.location` and `window.history` APIs.
 
 # Overview
-@docs Location
-@empty Location
+@docs Location, empty
 
 # Signals
 @docs location
