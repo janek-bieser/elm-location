@@ -1,4 +1,4 @@
-module Location (Location, location, currentLocation, pushState, empty) where
+module Location (Location, empty, location, currentLocation, pushState, replaceState, go, back, forward) where
 
 {-| This library combines some useful functionality from the
 `window.location` and `window.history` APIs.
@@ -6,12 +6,17 @@ module Location (Location, location, currentLocation, pushState, empty) where
 # Overview
 @docs Location, empty
 
-# Signals
+# Getting the location
+
+## With a Signal
 @docs location
 
-# Tasks
+## With a Task
 @docs currentLocation
-@docs pushState
+
+# History Manipulation
+@docs pushState, replaceState
+@docs go, back, forward
 -}
 
 import Native.Location
@@ -60,3 +65,35 @@ history API.
 pushState : String -> Task x Location
 pushState url =
     Native.Location.pushState url
+
+
+{-| `replaceState` is a mapping to `window.history.replaceState` of
+the HTML 5 history API.
+-}
+replaceState : String -> Task x Location
+replaceState url =
+    Native.Location.replaceState url
+
+
+{-| `go` is a mapping to `window.history.go` of the HTML 5 history
+API.
+-}
+go : Int -> Task x Location
+go offset =
+    Native.Location.go offset
+
+
+{-| `back` is a mapping to `window.history.back` of the HTML 5 history
+API.
+-}
+back : Task x Location
+back =
+    go (-1)
+
+
+{-| `forward` is a mapping to `window.history.forward` of the HTML 5 history
+API.
+-}
+forward : Task x Location
+forward =
+    go 1

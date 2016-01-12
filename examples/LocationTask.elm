@@ -11,7 +11,10 @@ import Signal
 
 type Action
     = LocationChange (Maybe Location)
+    | HandleLocationTask (Maybe Location)
     | GoTo String
+    | Back
+    | Forward
 
 
 type alias Model =
@@ -45,10 +48,16 @@ view address model =
         []
         [ h1 [] [ text "Location Task Example" ]
         , p [] [ text <| toString model ]
-        , p [] [ text "Click the button to navigate. Use '<-' and '->' of you browser afterwards." ]
+        , p [] [ text "Click the buttons to navigate." ]
         , button
             [ onClick address (GoTo "/example?query=test") ]
             [ text "Go To: /example?query=test" ]
+        , button
+            [ onClick address Back ]
+            [ text "Back" ]
+        , button
+            [ onClick address Forward ]
+            [ text "Forward" ]
         ]
 
 
@@ -63,8 +72,17 @@ update action model =
                 Nothing ->
                     ( model, Effects.none )
 
+        HandleLocationTask _ ->
+            ( model, Effects.none )
+
         GoTo url ->
-            ( model, mapEffect (Location.pushState url) LocationChange )
+            ( model, mapEffect (Location.pushState url) HandleLocationTask )
+
+        Back ->
+            ( model, mapEffect Location.back HandleLocationTask )
+
+        Forward ->
+            ( model, mapEffect Location.forward HandleLocationTask )
 
 
 mapEffect : Task x Location -> (Maybe Location -> y) -> Effects y
