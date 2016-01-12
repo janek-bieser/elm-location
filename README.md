@@ -10,4 +10,36 @@ browser history.
 
 ## How to use it
 
-TODO
+### Location Object
+
+```elm
+type alias Location =
+    { path : String
+    , hash : String
+    , search : String
+    }
+```
+
+### Location Signal
+
+[Full Example](./examples/LocationSignal.elm)
+
+```elm
+import Location exposing (Location)
+import Html exposing (..)
+import Signal
+
+main : Signal Html
+main =
+    Signal.map view Location.location
+    
+view : Location -> Html
+view location =
+    p [] [ text <| toString location ]
+```
+
+### Location Tasks
+
+[Full Example](./examples/LocationTask.elm) on how to use the provided
+tasks in combination with the
+[StartApp](https://github.com/evancz/start-app) module and Effects
