@@ -5,7 +5,7 @@ elm-location is a binding to `window.location` and
 current location (e.g. path, hash or search query) and manipulate the
 browser history.
 
-**Note: This project is is the very early stages and used for personal
+**Note: This project is in the very early stages and used for personal
  stuff only. So don't use it in production please.**
 
 ## How to use it
