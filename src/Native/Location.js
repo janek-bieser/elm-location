@@ -15,9 +15,12 @@ Elm.Native.Location.make = function make(localRuntime) {
 
     var makeLocation = function() {
         return {
-            path: window.location.pathname || "",
-            hash: window.location.hash || "",
-            search: window.location.search || ""
+            ctor: "Location",
+            _0: {
+                path: window.location.pathname || "",
+                hash: window.location.hash || "",
+                search: window.location.search || ""
+            }
         };
     };
 
@@ -38,7 +41,9 @@ Elm.Native.Location.make = function make(localRuntime) {
         location: location,
 
         currentLocation: Task.asyncFunction(function(callback) {
-            callback(Task.succeed(makeLocation()));
+            var loc = makeLocation();
+            localRuntime.notify(location.id, loc);
+            callback(Task.succeed(loc));
         }),
 
         /**
@@ -47,8 +52,9 @@ Elm.Native.Location.make = function make(localRuntime) {
         pushState: function(url) {
             return Task.asyncFunction(function(callback) {
                 window.history.pushState({}, "", url);
-                localRuntime.notify(location.id, makeLocation());
-                callback(Task.succeed(makeLocation()));
+                var loc = makeLocation();
+                localRuntime.notify(location.id, loc);
+                callback(Task.succeed(loc));
             });
         },
 
@@ -58,8 +64,9 @@ Elm.Native.Location.make = function make(localRuntime) {
         replaceState: function(url) {
             return Task.asyncFunction(function(callback) {
                 window.history.replaceState({}, "", url);
-                localRuntime.notify(location.id, makeLocation());
-                callback(Task.succeed(makeLocation()));
+                var loc = makeLocation();
+                localRuntime.notify(location.id, loc);
+                callback(Task.succeed(loc));
             });
         },
 

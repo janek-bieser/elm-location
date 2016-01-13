@@ -7,10 +7,11 @@ import Effects exposing (Effects, Never)
 import StartApp
 import Task exposing (Task)
 import Signal
+import Dict
 
 
 type Action
-    = LocationChange (Maybe Location)
+    = LocationChange Location
     | HandleLocationTask (Maybe Location)
     | GoTo String
     | Back
@@ -32,26 +33,29 @@ app =
         , update = update
         , view = view
         , inputs =
-            [ Signal.map (LocationChange << Just) Location.location
+            [ Signal.map LocationChange Location.location
             ]
         }
 
 
 init : ( Model, Effects Action )
 init =
-    ( Location.empty, mapEffect Location.currentLocation LocationChange )
+    ( Location.empty, mapEffect Location.currentLocation HandleLocationTask )
 
 
 view : Signal.Address Action -> Model -> Html
 view address model =
     div
         []
-        [ h1 [] [ text "Location Task Example" ]
-        , p [] [ text <| toString model ]
+        [ h1 [] [ text "History Example" ]
+        , p [] [ text "Path: ", text <| Location.path model ]
+        , p [] [ text "Hash: ", text <| Location.hash model ]
+        , p [] [ text "Search: ", text <| Location.search model ]
+        , p [] [ text "Qeury: ", text <| toString <| Location.query model ]
         , p [] [ text "Click the buttons to navigate." ]
         , button
-            [ onClick address (GoTo "/example?query=test") ]
-            [ text "Go To: /example?query=test" ]
+            [ onClick address (GoTo "/example?foo=bar#foo") ]
+            [ text "Go To: /example?foo=bar#foo" ]
         , button
             [ onClick address Back ]
             [ text "Back" ]
@@ -64,14 +68,10 @@ view address model =
 update : Action -> Model -> ( Model, Effects Action )
 update action model =
     case action of
-        LocationChange maybeLoc ->
-            case maybeLoc of
-                Just loc ->
-                    ( loc, Effects.none )
+        LocationChange location ->
+            ( location, Effects.none )
 
-                Nothing ->
-                    ( model, Effects.none )
-
+        --( location, Effects.none )
         HandleLocationTask _ ->
             ( model, Effects.none )
 
