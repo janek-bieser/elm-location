@@ -12,13 +12,13 @@ browser history.
 
 ### Location Object
 
-```elm
-type alias Location =
-    { path : String
-    , hash : String
-    , search : String
-    }
-```
+Use the following functions to extract the information you need from a `Location.Location` object.
+
+- `Location.path`: Returns the path as a `String`
+- `Location.hash`: Returns the hash as a `String`
+- `Location.search`: Returns the search query as a `String`
+- `Location.query`: Returns the search query converted to a `Dict`
+
 
 ### Location Signal
 
@@ -38,8 +38,8 @@ view location =
     p [] [ text <| toString location ]
 ```
 
-### Location Tasks
+### History Manipulation using Tasks
 
-[Full Example](./examples/LocationTask.elm) on how to use the provided
+[Full Example](./examples/HistoryExample.elm) on how to use the provided
 tasks in combination with the
 [StartApp](https://github.com/evancz/start-app) module and Effects

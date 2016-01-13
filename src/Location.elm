@@ -4,7 +4,7 @@ module Location (Location, empty, path, hash, search, query, location, currentLo
 `window.location` and `window.history` APIs.
 
 # Overview
-@docs Location, empty, path
+@docs Location, empty, path, hash, search, query
 
 # Getting the location
 
