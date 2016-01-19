@@ -1,5 +1,5 @@
 {
-    "version": "0.2.0",
+    "version": "1.0.0",
     "summary": "Binding to window.location and window.history APIs.",
     "repository": "https://github.com/janek-bieser/elm-location.git",
     "license": "MIT",
