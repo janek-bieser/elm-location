@@ -13,13 +13,20 @@ Elm.Native.Location.make = function make(localRuntime) {
     var Signal = Elm.Native.Signal.make(localRuntime);
     var Task = Elm.Native.Task.make(localRuntime);
 
+    var decode = function(uriComponent) {
+        if (!uriComponent) {
+            return "";
+        }
+        return window.decodeURIComponent(uriComponent)
+    };
+
     var makeLocation = function() {
         return {
             ctor: "Location",
             _0: {
-                path: window.location.pathname || "",
-                hash: window.location.hash || "",
-                search: window.location.search || ""
+                path: decode(window.location.pathname),
+                hash: decode(window.location.hash),
+                search: decode(window.location.search)
             }
         };
     };
